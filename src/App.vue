@@ -18,6 +18,7 @@ export default {
         {
           artist: 'Kanye West',
           title: 'Unreleased',
+          cover: require('./assets/cover_2.png'),
           tracks: [
             {
               title: 'Livin\' In A Movie',
@@ -52,6 +53,89 @@ export default {
             }, {
               title: 'Dark Fantasy',
               duration: '3:51'
+            }
+          ]
+        },
+        {
+          artist: 'Steel Panther',
+          title: 'Feel the Steel',
+          cover: require('./assets/cover_1.png'),
+          tracks: [
+            {	title: 'Death to All But Metal (featuring Corey Taylor)',
+              duration:	"2:30"
+            }, {
+              title: 'Asian Hooker',
+              duration:	'4:02'
+            },{
+              title: "Community Property",
+              duration:	'3:39'
+            },{
+              title: "Eyes of a Panther",
+              duration:	'3:37'
+            },{
+              title: "Fat Girl (Thar She Blows)",
+              duration:	'4:38'
+            },{
+              title: "Eatin' Ain't Cheatin'",
+              duration:	'3:51'
+            },{
+              title: "Party All Day (Fuck All Night) (featuring Justin Hawkins)",
+              duration:	'3:03'
+            },{
+              title: "Turn Out the Lights (featuring M. Shadows)",
+              duration:	'4:24'
+            },{
+              title: "Stripper Girl",
+              duration:	'3:35'
+            },{
+              title: "The Shocker",
+              duration:	'4:10'
+            },{
+              title: "Girl from Oklahoma",
+              duration:	'3:57'}
+          ]
+        },
+        {
+          artist: 'Kanye West',
+          title: 'My Beautiful Dark Twisted Fantasy',
+          cover: require('./assets/cover_3.png'),
+          tracks: [
+            {
+              title: 'Dark Fantasy',
+              duration: '4:40'
+            }, {
+              title: 'Gorgeous',
+              duration: '5:57'
+            }, {
+              title: 'Power',
+              duration: '4:52'
+            }, {
+              title: 'All of the Lights (Interlude)',
+              duration: '1:02'
+            }, {
+              title: 'All of the Lights',
+              duration: '4:59'
+            }, {
+              title: 'Monster',
+              duration: '6:18'
+            }, {
+              title: 'So Appalled',
+              duration: '4:52'
+            }, {
+              title: 'Devil in a New Dress',
+              duration: '6:38'
+            }, {
+              title: 'Runaway',
+              duration: '5:52'
+            }, {
+              title: 'Hell of a Life',
+              duration: '4:52'
+            }, {
+              title: 'Blame Game',
+              duration: '9:08'
+            }, {
+              title: 'Lost in the World',
+              duration: '5:27'
             }
           ]
         }
