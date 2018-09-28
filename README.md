@@ -1,22 +1,12 @@
-# task
+# Spotifake
+my take on creating a Spotify-look-alike.
 
 ## Project setup
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Run and see
 ```
 yarn run serve
 ```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-# Spotifake
