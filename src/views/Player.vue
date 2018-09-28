@@ -7,7 +7,7 @@
 <div class="wrapper">
 
   <transition name="moreslide">
-    <more v-if="displayMore" @return="toggleMore"/>
+    <more v-if="displayMore" @return="toggleMore" :song="currentAlbum.tracks[0].title" :artist="currentAlbum.artist" :artworkPath="currentAlbum.cover"/>
   </transition>
   <div class="head">
     <btn back/>
@@ -19,11 +19,21 @@
   </div>
 
   <div class="body">
+    <!-- <slick ref="slick" :options="slickOptions"> -->
+      <div class="covers">
+        <img v-for="(album, index) in albums"
+        :src="album.cover"
+        class="album-cover"
+        :class="{active: currentAlbumNum===index}"
+        >
+
+      </div>
+    <!-- </slick> -->
     <div class="controls">
       <btn shuffle/>
-      <btn prev/>
+      <btn prev @click.native="prev"/>
       <btn play :active="isPlaying" @click.native="togglePlay"/>
-      <btn next/>
+      <btn next @click.native="next"/>
       <btn repeat/>
     </div>
   </div>
@@ -52,6 +62,7 @@ import More from './../components/More'
 import Playlist from './../components/Playlist'
 import Btn from './../components/Btn'
 import bg from '@/assets/bg_photo.png'
+// import Slick from 'vue-slick'
 // TODO:
 // core:
 // [v] menu wysuwane z prawej strony
@@ -68,7 +79,8 @@ export default {
   components: {
     More,
     Btn,
-    Playlist
+    Playlist,
+    // Slick
   },
   props: {
     albums: {
@@ -82,7 +94,11 @@ export default {
       displayPlaylist: false,
       bg,
       currentAlbumNum:0,
-      currentAlbum: {}
+      currentAlbum: {},
+      slickOptions: {
+        arrows: false,
+        slidesToShow: 1
+      }
     }
   },
   mounted() {
@@ -98,6 +114,28 @@ export default {
     },
     togglePlaylist() {
       this.displayPlaylist = !this.displayPlaylist
+    },
+    next() {
+      // this.$refs.slick.next();
+      this.changeCurrentAlbum('next')
+    },
+    prev() {
+      // this.$refs.slick.prev();
+      this.changeCurrentAlbum()
+    },
+    changeCurrentAlbum(dir) {
+      if (dir==='next') {
+        this.currentAlbumNum += 1
+        if(this.currentAlbumNum >= this.albums.length) {
+          this.currentAlbumNum = 0
+        }
+      } else {
+        this.currentAlbumNum--
+        if (this.currentAlbumNum<0) {
+          this.currentAlbumNum=this.albums.length-1
+        }
+      }
+        console.log(this.currentAlbumNum)
     }
   },
   computed: {
@@ -112,7 +150,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/* unstyle buttons: */
 
 .all {
   width: 576px;
@@ -120,7 +157,7 @@ export default {
   position: relative;
 }
 
-  .bg {
+.bg {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -132,15 +169,17 @@ export default {
   width: 100%;
   display: block;
   z-index:1;
-  }
-  div.gradient {
-    background: rgba(27, 27, 27, 0.95);
-    z-index:3;
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
+}
+
+div.gradient {
+  background: rgba(27, 27, 27, 0.95);
+  z-index:3;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 .wrapper {
   background-color: #1b1b1b;
   width: 100%;
@@ -150,8 +189,8 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  // background-image: url("./../assets/bg-photo.png")
 }
+
 .head {
   display: flex;
   flex-direction: row;
@@ -161,21 +200,6 @@ export default {
   z-index: 1;
 }
 
-.btn-back, .btn-more {
- display: flex;
- justify-content: center;
-}
-.btn-back {
- img {
-    margin-left: 3.3rem;
-    margin-top: 0.4rem;
-  }
-}
-
-.btn-more img {
-    margin-right: 3.9rem;
-    margin-top: 0.4rem;
-}
 .album-info{
   display: flex;
   flex-direction: column;
@@ -195,15 +219,28 @@ export default {
   color: #ffffff;
   font-family: "Source Sans Pro";
   text-align: center;
-
 }
 
 .body {
+  z-index:1;
+  .covers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .album-cover {
+      width: 12rem;
+      height: 12rem;
+      margin: 2rem;
+      &.active{
+        width:20rem;
+        height: 20rem;
+      }
+    }
+  }
   .controls {
     display: flex;
     justify-content: space-around;
     padding: 0 1rem;
-
   }
 }
 .feet {
@@ -274,6 +311,8 @@ span.next {
    transform: translateY(100%);
    opacity:0
  }
+
+
 
 </style>
 
