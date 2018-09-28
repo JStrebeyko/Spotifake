@@ -10,7 +10,7 @@
   <div class="playlist-body">
     <div class="tracklist">
       <div v-for="(track, index) in tracklist" class="track">
-        <span>{{index+1}}</span> <span>{{track.title}}</span><span>{{track.duration}}</span>
+        <span class="track-number">{{index+1}} </span><span class="track-title">{{track.title}}</span><span class="track-duration">{{track.duration}}</span>
       </div>
     </div>
 
@@ -81,8 +81,28 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   height: 100%;
+  width: 10%;
   &.track {
-  text-justify: left;
+  overflow-x: hidden;
+
+  }
+  .track-number, .track-title {
+    float: left;
+
+  }
+  .track-title:after {
+    font-size: 1.5rem;
+    color: #9a9b9b;
+    white-space: nowrap;
+    letter-spacing: 2px;
+    content:
+ ". . . . . . . . . . . . . . . . . . . . "
+ ". . . . . . . . . . . . . . . . . . . . "
+ ". . . . . . . . . . . . . . . . . . . . "
+ ". . . . . . . . . . . . . . . . . . . . "
+  }
+  .track-duration {
+    float:right;
   }
 }
 .btn-box {
@@ -91,6 +111,5 @@ export default {
   flex-direction: column;
   width: 80%;
   align-items: center;
-
 }
 </style>

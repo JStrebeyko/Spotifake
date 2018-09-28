@@ -66,13 +66,13 @@ import bg from '@/assets/bg_photo.png'
 // TODO:
 // core:
 // [v] menu wysuwane z prawej strony
-// [] obrazki płyt działają jak slider (slick.js?)
+// [~] obrazki płyt działają jak slider (slick.js?)
 // [v] guzik play zmieniający swój stan
 // [v] icona na dole => menu wysuwane z dołu z listą wszystkich utworów
 
 // additional:
 // [v] btn
-// []
+// [] flow control
 // []
 export default {
   name: 'player',
