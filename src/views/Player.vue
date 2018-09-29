@@ -26,9 +26,15 @@
         class="album-cover"
         :class="{active: currentAlbumNum===index}"
         >
-
       </div>
     <!-- </slick> -->
+
+    <div class="now-playing">
+      <span class="song">{{currentSong}}</span>
+      <span class="artist">{{currentArtist}}</span>
+    </div>
+
+
     <div class="controls">
       <btn shuffle/>
       <btn prev @click.native="prev"/>
@@ -43,7 +49,7 @@
     <div class="song-info">
       <span class="next">next</span><br/>
       <div class="next-song-info">
-        <span class="song-name">Livin' in A Movie</span>
+        <span class="song-name">{{currentAlbum.tracks[1].title}}</span>
         <span class="next-time">3:27</span>
 
       </div>
@@ -66,12 +72,13 @@ import bg from '@/assets/bg_photo.png'
 // TODO:
 // core:
 // [v] menu wysuwane z prawej strony
-// [~] obrazki płyt działają jak slider (slick.js?)
+// [ ] obrazki płyt działają jak slider (slick.js?)
 // [v] guzik play zmieniający swój stan
 // [v] icona na dole => menu wysuwane z dołu z listą wszystkich utworów
 
 // additional:
 // [v] btn
+// [] deal with the computed watcher console.error
 // [] flow control
 // []
 export default {
@@ -144,6 +151,22 @@ export default {
       picture = this.isPlaying ? 'Play_active.png' : 'Play_inactive.png'
       let string = `./../assets/${picture}`
       return string
+    },
+    currentSong() {
+      if (this.currentAlbum) {
+        return this.currentAlbum.tracks[0].title
+      }
+    },
+    currentArtist() {
+      if (this.currentAlbum) {
+        return this.currentAlbum.artist
+      }
+    }
+  },
+  watch: {
+    currentAlbumNum() {
+      this.currentAlbum = this.albums[this.currentAlbumNum]
+
     }
   }
 }
@@ -237,6 +260,26 @@ div.gradient {
       }
     }
   }
+  .now-playing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .song {
+      font-size: 36px;
+      line-height: 36px;
+      color: #37b34a;
+      font-family: "Source Sans Pro";
+      text-align: center;
+    }
+    .artist {
+      font-size: 18px;
+      line-height: 36px;
+      color: #9a9b9b;
+      font-family: "Source Sans Pro";
+      text-align: center;
+      text-transform: uppercase;
+    }
+  }
   .controls {
     display: flex;
     justify-content: space-around;
@@ -272,44 +315,45 @@ span.next {
   padding-right: 1rem;
 }
 .song-name:after {
-    float: left;
-    width: 0;
-    font-size: 1.5rem;
-    color: #9a9b9b;
-    white-space: nowrap;
-    letter-spacing: 2px;
-    content:
- ". . . . . . . . . . . . . . . . . . . . "
- ". . . . . . . . . . . . . . . . . . . . "
- ". . . . . . . . . . . . . . . . . . . . "
- ". . . . . . . . . . . . . . . . . . . . "}
- .next-time {
-   float: right;
-   font-size: 24px;
-   line-height: 20px;
-    background:#ffffff;
-    padding-right: 2rem;
-    padding-left: 1rem;
-    color: #9a9b9b;
-    font-family: "Source Sans Pro";
- }
+  float: left;
+  width: 0;
+  font-size: 1.5rem;
+  color: #9a9b9b;
+  white-space: nowrap;
+  letter-spacing: 2px;
+  content:
+  ". . . . . . . . . . . . . . . . . . . . "
+  ". . . . . . . . . . . . . . . . . . . . "
+  ". . . . . . . . . . . . . . . . . . . . "
+  ". . . . . . . . . . . . . . . . . . . . "
+}
+.next-time {
+  float: right;
+  font-size: 24px;
+  line-height: 20px;
+  background:#ffffff;
+  padding-right: 2rem;
+  padding-left: 1rem;
+  color: #9a9b9b;
+  font-family: "Source Sans Pro";
+}
 
  .next-song-info {
    overflow: hidden;
  }
  .moreslide-enter-active, .moreslide-leave-active {
-   transition: 1s;
+   transition: 0.6s;
  }
  .moreslide-enter, .moreslide-leave-to {
    transform: translateX(100%);
-   opacity:0
+   opacity:0.25
  }
   .playlistslide-enter-active, .playlistslide-leave-active {
-   transition: 1s;
+   transition: 0.6s;
  }
  .playlistslide-enter, .playlistslide-leave-to {
    transform: translateY(100%);
-   opacity:0
+   opacity:0.25
  }
 
 
