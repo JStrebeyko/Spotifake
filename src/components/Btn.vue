@@ -10,7 +10,7 @@
       <img v-if="play && active" src="./../assets/Play_active.png"/>
       <img v-if="play && !active" src="./../assets/Play_inactive.png"/>
       <img v-if="down" src="./../assets/back_ico.svg"/>
-      <p v-if="shufflePlay" class="shuffle-play-text">shuffle play</p>
+      <span v-if="shufflePlay" class="shuffle-play-text">shuffle play</span>
     </button>
 </template>
 
@@ -130,12 +130,24 @@ button, input[type="submit"], input[type="reset"] {
 .btn-down {
   transform: rotate(-90deg);
   height:4rem;
+  margin-bottom: 0.5rem;
+
 }
 
 .btn-shuffle-play {
-  width: 80%;
-  text-transform: uppercase;
+  width: 90%;
+  height: 4.2rem;
   background-color: #37b349;
   border-radius: 30px;
+  margin-bottom: 0.5rem;
+  .shuffle-play-text {
+    font-size: 20px;
+    line-height: 36px;
+    color: #ffffff;
+    font-family: "Source Sans Pro";
+    font-weight: bold;
+    text-transform: uppercase;
+
+  }
 }
 </style>
