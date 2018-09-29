@@ -2,7 +2,7 @@
 <div class="playlist-wrapper">
   <div class="playlist-body">
     <div class="tracklist">
-      <div v-for="(track, index) in tracklist" class="track">
+      <div v-for="(track, index) in trimmedTracklist" class="track">
         <span class="track-number">{{index+1}}. </span>
         <span class="track-title">{{track.title}}</span>
         <span class="track-duration">{{track.duration}}</span>
@@ -31,6 +31,11 @@ export default {
   methods: {
     downClicked() {
       this.$emit('closePlaylist')
+    }
+  },
+  computed: {
+    trimmedTracklist() {
+      return this.tracklist.slice(1,this.tracklist.length)
     }
   }
 }
