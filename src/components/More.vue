@@ -5,17 +5,17 @@
         <btn more @click.native="moreClicked"/>
       </div>
     <div class="more-body">
-    <img :src="artworkPath"/>
-    <div class="song-info">
-      <span class="song-name">{{song}}</span>
-      <span class="artist-name">{{artist}}</span>
-      ...
+    <img :src="artworkPath" class="more-cover"/>
+    <div class="now-playing">
+      <span class="song">{{song}}</span>
+      <span class="artist">{{artist}}</span>
+    </div>
+      <span class="divider">...</span>
       <div class="options">
         <p class="option">Add to playlist</p>
         <p class="option">Show album</p>
         <p class="option">Share with friends</p>
       </div>
-    </div>
 
     </div>
   </div>
@@ -61,7 +61,42 @@ export default {
   align-content: space-around;
   align-items: center;
   text-align: center;
-  z-index: 3
+  z-index: 3;
+  .more-cover {
+    max-height: 30%;
+    margin-bottom: 3rem;
+  }
+  .now-playing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .song {
+      font-size: 36px;
+      line-height: 36px;
+      color: #37b34a;
+      font-family: "Source Sans Pro";
+      text-align: center;
+    }
+    .artist {
+      font-size: 18px;
+      line-height: 36px;
+      color: #9a9b9b;
+      font-family: "Source Sans Pro";
+      text-align: center;
+      text-transform: uppercase;
+    }
+  }
+  .divider {
+    letter-spacing: 1rem;
+    margin-top: 1rem;
+    display: flex;
+  }
+  .options {
+    font-size: 24px;
+    line-height: 64px;
+    color: #ffffff;
+    font-family: "Source Sans Pro";
+  }
 }
 .more-head {
   display: flex;
