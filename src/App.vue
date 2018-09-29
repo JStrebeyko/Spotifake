@@ -21,6 +21,9 @@ export default {
           cover: require('./assets/cover_2.png'),
           tracks: [
             {
+              title: 'Self Conscious',
+              duration: '4:21'
+            }, {
               title: 'Livin\' In A Movie',
               duration: '3:27'
             }, {
@@ -61,7 +64,7 @@ export default {
           title: 'Feel the Steel',
           cover: require('./assets/cover_1.png'),
           tracks: [
-            {	title: 'Death to All But Metal (featuring Corey Taylor)',
+            {	title: 'Death to All But Metal',
               duration:	"2:30"
             }, {
               title: 'Asian Hooker',
@@ -79,10 +82,10 @@ export default {
               title: "Eatin' Ain't Cheatin'",
               duration:	'3:51'
             },{
-              title: "Party All Day (Fuck All Night) (featuring Justin Hawkins)",
+              title: "Party All Day (Fuck All Night)",
               duration:	'3:03'
             },{
-              title: "Turn Out the Lights (featuring M. Shadows)",
+              title: "Turn Out the Lights",
               duration:	'4:24'
             },{
               title: "Stripper Girl",
