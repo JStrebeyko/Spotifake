@@ -45,7 +45,7 @@ export default {
               title: 'Blame Game',
               duration: '7:02'
             }, {
-              title: 'Lost in the Worls',
+              title: 'Lost in the Worlds',
               duration: '3:11'
             }, {
               title: 'Who Will Survive in America',
@@ -161,5 +161,11 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* reset */
+*, *:before, *:after {
+  box-sizing: border-box;
 }
 </style>
