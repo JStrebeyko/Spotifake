@@ -1,20 +1,14 @@
 <template>
 <div class="playlist-wrapper">
-  <!-- <div class="playlist-head">
-    <div class="song-info">
-      <div class="name"></div>
-      <div class="artist"></div>
-    </div>
-    <btn play/>
-  </div> -->
   <div class="playlist-body">
     <div class="tracklist">
       <div v-for="(track, index) in tracklist" class="track">
-        <span class="track-number">{{index+1}} </span><span class="track-title">{{track.title}}</span><span class="track-duration">{{track.duration}}</span>
+        <span class="track-number">{{index+1}}. </span>
+        <span class="track-title">{{track.title}}</span>
+        <span class="track-duration">{{track.duration}}</span>
       </div>
+      <div class="white-gradient"></div>
     </div>
-
-
     <div class="btn-box">
       <btn shufflePlay />
       <btn down @click.native="downClicked"/>
@@ -43,73 +37,98 @@ export default {
 </script>
 
 <style lang="scss">
+*{
+  box-sizing: border-box
+}
 .playlist-wrapper {
   width: 576px;
   height: 100%;
-  margin-top: 8.1rem;
   position: absolute;
-  z-index: 2;
-  color: white;
-  background-color: rgba(255, 255, 255, 1);
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-content: space-around;
   align-items: center;
-  text-align: center;
+  // text-align: center;
+  margin-top: 8.1rem;
+  z-index: 2;
+  color: white;
+  background-color: rgba(255, 255, 255, 1);
+  flex-direction: column;
 }
-/* .playlist-head {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 8.1rem;
-  justify-content: space-between;
-} */
+
 .playlist-body {
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
   height: 100%;
-  /* align-content: space-around; */
   justify-content: space-between;
+  font-family: "Source Sans Pro";
   margin-bottom: 8.1rem;
 }
 .tracklist {
-  color: black;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 100%;
-  width: 10%;
-  &.track {
-  overflow-x: hidden;
-
+  color: black;
+  position: relative;
+  padding-top: 2.1rem;
+  .white-gradient {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+    position: absolute;
+    z-index: 1;
   }
-  .track-number, .track-title {
-    float: left;
-
-  }
-  .track-title:after {
-    font-size: 1.5rem;
-    color: #9a9b9b;
-    white-space: nowrap;
-    letter-spacing: 2px;
-    content:
- ". . . . . . . . . . . . . . . . . . . . "
- ". . . . . . . . . . . . . . . . . . . . "
- ". . . . . . . . . . . . . . . . . . . . "
- ". . . . . . . . . . . . . . . . . . . . "
-  }
-  .track-duration {
-    float:right;
+  .track {
+    width: 100%;
+    margin: 1.4rem 0;
+    .track-number {
+      color: #9a9b9b;
+      background:#ffffff;
+      padding-left: 4rem;
+      padding-right: 2.5rem;
+    }
+    .track-title {
+      font-size: 24px;
+      line-height: 20px;
+      color: #1b1b1b;
+      font-family: "Source Sans Pro";
+      background:#ffffff;
+      padding-right: 1rem;
+      &:after {
+        float: left;
+        width: 0;
+        font-size: 1.5rem;
+        color: #9a9b9b;
+        white-space: nowrap;
+        letter-spacing: 2px;
+        content:
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+      }
+    }
+    .track-duration {
+      float: right;
+      font-size: 24px;
+      line-height: 20px;
+      background:#ffffff;
+      padding-right: 4rem;
+      padding-left: 1rem;
+      color: #9a9b9b;
+      font-family: "Source Sans Pro";
+    }
   }
 }
+
 .btn-box {
   display: flex;
-  /* align-self:flex-end; */
   flex-direction: column;
   width: 80%;
   align-items: center;
 }
+
 </style>
