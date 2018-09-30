@@ -2,7 +2,7 @@
   <div class="more-wrapper">
       <div class="more-head">
         <btn back/>
-        <btn more @click.native="moreClicked"/>
+        <btn moreMore @click.native="moreClicked"/>
       </div>
     <div class="more-body">
     <img :src="artworkPath" class="more-cover"/>
@@ -12,9 +12,9 @@
     </div>
       <span class="divider">...</span>
       <div class="options">
-        <p class="option">Add to playlist</p>
-        <p class="option">Show album</p>
-        <p class="option">Share with friends</p>
+        <span class="option" @click="add">Add to playlist</span>
+        <span class="option">Show album</span>
+        <span class="option">Share with friends</span>
       </div>
 
     </div>
@@ -41,7 +41,9 @@ export default {
   methods: {
     moreClicked() {
       this.$emit('return');
-      console.log('more clicked in more!')
+    },
+    add() {
+      console.log(`"${this.song}" by ${this.artist} has been added to playlist!`)
     }
   }
 }
@@ -54,56 +56,76 @@ export default {
   position: absolute;
   z-index: 2;
   color: white;
-  background-color: rgba(20, 20, 20, 0.9);
+  background-color: rgba(27, 27, 27, 0.96);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-content: space-around;
   align-items: center;
   text-align: center;
   z-index: 3;
-  .more-cover {
-    max-height: 30%;
-    margin-bottom: 3rem;
-  }
-  .now-playing {
+  .more-head {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    .song {
-      font-size: 36px;
-      line-height: 36px;
-      color: #37b34a;
-      font-family: "Source Sans Pro";
-      text-align: center;
+    flex-direction: row;
+    width: 100%;
+    height: 8.1rem;
+    justify-content: space-between;
+    .btn {
+      margin-top: 1.3rem;
     }
-    .artist {
-      font-size: 18px;
-      line-height: 36px;
+    .btn-more {
+      fill: white;
+    }
+  }
+  .more-body {
+    margin-bottom: 4rem;
+    .more-cover {
+      height: 25%;
+      margin-bottom: 1.5rem;
+    }
+    .now-playing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .song {
+        font-size: 36px;
+        line-height: 36px;
+        color: #37b34a;
+        font-family: "Source Sans Pro";
+        text-align: center;
+      }
+      .artist {
+        font-size: 18px;
+        line-height: 36px;
+        color: #9a9b9b;
+        font-family: "Source Sans Pro";
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+    .divider {
+      letter-spacing: 0.4rem;
+      margin-left: 0.4rem;
+      font-size: 2rem;
       color: #9a9b9b;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      padding-top: 1rem;
+      font-size: 24px;
+      line-height: 64px;
+      color: #ffffff;
       font-family: "Source Sans Pro";
-      text-align: center;
-      text-transform: uppercase;
+      .option {
+        cursor: pointer;
+        &:hover {
+          text-shadow: 1px 1px 2px white,
+                       -1px -1px 2px white
+        }
+      }
     }
   }
-  .divider {
-    letter-spacing: 1rem;
-    margin-top: 1rem;
-    display: flex;
-  }
-  .options {
-    font-size: 24px;
-    line-height: 64px;
-    color: #ffffff;
-    font-family: "Source Sans Pro";
-  }
-}
-.more-head {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 8.1rem;
-  justify-content: space-between;
 }
 .more-body {
   display: flex;
