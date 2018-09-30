@@ -52,7 +52,7 @@ export default {
 <style scoped lang="scss">
 .more-wrapper {
   width: 576px;
-  height: calc(1024px - 89px);
+  height: calc(1024px - 86px);
   position: absolute;
   z-index: 2;
   color: white;
