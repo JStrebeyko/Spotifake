@@ -1,64 +1,83 @@
 <template>
 <div>
   <div class="all">
-  <div class="bg" :style="{ 'background-image': 'url('+bg+')'}">
-    <div class="gradient"></div>
-  </div>
-<div class="wrapper">
+    <div class="bg" :style="{ 'background-image': 'url('+bg+')'}">
+      <div class="gradient"></div>
+    </div>
+    <div class="wrapper">
 
-  <transition name="moreslide">
-    <more v-if="displayMore" @return="toggleMore" :song="currentAlbum.tracks[0].title" :artist="currentAlbum.artist" :artworkPath="currentAlbum.cover"/>
-  </transition>
-  <div class="head">
-    <btn back/>
-      <div class="album-info">
-        <span class="album">album</span>
-        <span class="album-name">{{currentAlbum.title}}</span>
-      </div>
-    <btn more @click.native="toggleMore"/>
-  </div>
+    <transition name="moreslide">
+      <more v-if="displayMore" @return="toggleMore" :song="currentAlbum.tracks[0].title" :artist="currentAlbum.artist" :artworkPath="currentAlbum.cover"/>
+    </transition>
+    <div class="head">
+      <btn back/>
+        <div class="album-info">
+          <span class="album">album</span>
+          <span class="album-name">{{currentAlbum.title}}</span>
+        </div>
+      <btn more @click.native="toggleMore"/>
+    </div>
 
-  <div class="body">
-    <!-- <slick ref="slick" :options="slickOptions"> -->
+    <div class="body">
       <div class="covers">
-        <img v-for="(album, index) in albums"
-        :src="album.cover"
-        class="album-cover"
-        :class="{active: currentAlbumNum===index}"
-        >
-      </div>
-    <!-- </slick> -->
+        <div class="album-cover">
+          <!-- <transition name="covers"> -->
+            <img
+              :src="prevAlbum.cover"
+              :key="prevAlbum.title"
+              @click="currentAlbumNum=changeCurrentAlbumNumber()"/>
+          <!-- </transition> -->
+        </div>
+        <div class="album-cover">
+          <!-- <transition name="covers"> -->
+            <img
+            :src="currentAlbum.cover"
+            class="active album-cover"
+            :key="currentAlbum.title"/>
+          <!-- </transition> -->
+        </div>
 
-    <div class="now-playing">
-      <span class="song">{{currentSong}}</span>
-      <span class="artist">{{currentArtist}}</span>
-    </div>
-
-
-    <div class="controls">
-      <btn shuffle/>
-      <btn prev @click.native="prev"/>
-      <btn play :active="isPlaying" @click.native="togglePlay"/>
-      <btn next @click.native="next"/>
-      <btn repeat/>
-    </div>
-  </div>
-
-  <div class="feet">
-    <btn playlist @click.native="togglePlaylist"/>
-    <div class="song-info">
-      <span class="next">next</span><br/>
-      <div class="next-song-info">
-        <span class="song-name">{{currentAlbum.tracks[1].title}}</span>
-        <span class="next-time">3:27</span>
+        <div class="album-cover">
+        <!-- <transition name="covers"> -->
+          <img
+          :src="nextAlbum.cover"
+          :key="nextAlbum.title"
+          @click="currentAlbumNum=changeCurrentAlbumNumber('next')"/>
+        <!-- </transition> -->
+        </div>
 
       </div>
+
+      <div class="now-playing">
+        <span class="song">{{currentSong}}</span>
+        <span class="artist">{{currentArtist}}</span>
+      </div>
+
+      <div class="controls">
+        <btn shuffle/>
+        <btn prev @click.native="prev"/>
+        <btn play :active="isPlaying" @click.native="togglePlay"/>
+        <btn next @click.native="next"/>
+        <btn repeat/>
+      </div>
     </div>
+
+    <img class="running-track" :src="track"/>
+    <div class="feet">
+      <btn playlist @click.native="togglePlaylist"/>
+      <div class="song-info">
+        <span class="next">next</span><br/>
+        <div class="next-song-info">
+          <span class="song-name">{{this.albums[this.currentAlbumNum].tracks[1].title}}</span>
+          <span class="next-time">{{this.albums[this.currentAlbumNum].tracks[1].duration}}</span>
+        </div>
+      </div>
+    </div>
+
+    <transition name="playlistslide">
+      <playlist v-if="displayPlaylist" @closePlaylist="togglePlaylist" :tracklist="currentAlbum.tracks"/>
+    </transition>
   </div>
-  <transition name="playlistslide">
-    <playlist v-if="displayPlaylist" @closePlaylist="togglePlaylist" :tracklist="currentAlbum.tracks"/>
-  </transition>
-</div>
 </div>
 </div>
 </template>
@@ -68,19 +87,19 @@ import More from './../components/More'
 import Playlist from './../components/Playlist'
 import Btn from './../components/Btn'
 import bg from '@/assets/bg_photo.png'
+import track from '@/assets/running_track.jpg'
 // import Slick from 'vue-slick'
 // TODO:
 // core:
-// [v] menu wysuwane z prawej strony
-// [ ] obrazki płyt działają jak slider (slick.js?)
-// [v] guzik play zmieniający swój stan
-// [v] icona na dole => menu wysuwane z dołu z listą wszystkich utworów
+// [v]right 'more' menu
+// [v] album covers slider
+// [v] play button with state
+// [v] playlist menu
 
 // additional:
 // [v] btn
-// [] deal with the computed watcher console.error
+// [v] deal with the computed watcher console.error
 // [] flow control
-// []
 export default {
   name: 'player',
   components: {
@@ -100,8 +119,11 @@ export default {
       displayMore: false,
       displayPlaylist: false,
       bg,
+      track,
       currentAlbumNum:0,
       currentAlbum: {},
+      prevAlbum:{},
+      nextAlbum: {},
       slickOptions: {
         arrows: false,
         slidesToShow: 1
@@ -110,10 +132,11 @@ export default {
   },
   mounted() {
     this.currentAlbum = this.albums[this.currentAlbumNum];
+    this.nextAlbum = this.albums[this.changeCurrentAlbumNumber('next')]
+    this.prevAlbum = this.albums[this.changeCurrentAlbumNumber()]
   },
   methods: {
     togglePlay() {
-      console.log(this.isPlaying)
       this.isPlaying = !this.isPlaying
     },
     toggleMore() {
@@ -124,38 +147,31 @@ export default {
     },
     next() {
       // this.$refs.slick.next();
-      this.changeCurrentAlbum('next')
+      this.currentAlbumNum = this.changeCurrentAlbumNumber('next')
     },
     prev() {
       // this.$refs.slick.prev();
-      this.changeCurrentAlbum()
+      this.currentAlbumNum = this.changeCurrentAlbumNumber()
     },
-    changeCurrentAlbum(dir) {
+    changeCurrentAlbumNumber(dir) {
+      let number = this.currentAlbumNum
       if (dir==='next') {
-        this.currentAlbumNum += 1
-        if(this.currentAlbumNum >= this.albums.length) {
-          this.currentAlbumNum = 0
+        number += 1
+        if(number >= this.albums.length) {
+          number = 0
         }
       } else {
-        this.currentAlbumNum--
-        if (this.currentAlbumNum<0) {
-          this.currentAlbumNum=this.albums.length-1
+        number--
+        if (number<0) {
+          number=this.albums.length-1
         }
       }
-        console.log(this.currentAlbumNum)
+      return number
     }
   },
   computed: {
-    playSrc() {
-      let picture;
-      picture = this.isPlaying ? 'Play_active.png' : 'Play_inactive.png'
-      let string = `./../assets/${picture}`
-      return string
-    },
     currentSong() {
-      if (this.currentAlbum) {
-        return this.currentAlbum.tracks[0].title
-      }
+        return this.currentAlbum.tracks ? this.currentAlbum.tracks[0].title : false
     },
     currentArtist() {
       if (this.currentAlbum) {
@@ -166,7 +182,8 @@ export default {
   watch: {
     currentAlbumNum() {
       this.currentAlbum = this.albums[this.currentAlbumNum]
-
+      this.nextAlbum = this.albums[this.changeCurrentAlbumNumber('next')]
+      this.prevAlbum = this.albums[this.changeCurrentAlbumNumber()]
     }
   }
 }
@@ -178,6 +195,7 @@ export default {
   width: 576px;
   height: 1024px;
   position: relative;
+  box-shadow: 10px 10px 200px 10px #000;
 }
 
 .bg {
@@ -251,10 +269,12 @@ div.gradient {
     justify-content: center;
     align-items: center;
     .album-cover {
-      width: 12rem;
-      height: 12rem;
-      margin: 2rem;
-      &.active{
+      img {
+        width: 8rem;
+        height: 8rem;
+        margin: 2rem;
+      }
+      &.active {
         width:20rem;
         height: 20rem;
       }
@@ -264,12 +284,18 @@ div.gradient {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 234px;
     .song {
       font-size: 36px;
       line-height: 36px;
       color: #37b34a;
       font-family: "Source Sans Pro";
       text-align: center;
+      cursor: pointer;
+      &:hover {
+        text-shadow: 1px 1px 2px #37b34a,
+                    -1px -1px 2px #37b34a
+      }
     }
     .artist {
       font-size: 18px;
@@ -278,69 +304,85 @@ div.gradient {
       font-family: "Source Sans Pro";
       text-align: center;
       text-transform: uppercase;
+      cursor: pointer;
+      z-index: 3;
+      &:hover {
+        text-shadow: 1px 1px 1px #9a9b9b,
+                    -1px -1px 1px #9a9b9b
+      }
     }
   }
   .controls {
     display: flex;
     justify-content: space-around;
     padding: 0 1rem;
+    position: absolute;
+    width: 100%;
+    bottom: 189px;
+    padding: 0 1.5rem;
   }
+}
+.running-track {
+  bottom: 87px;
+  position: absolute;
+
 }
 .feet {
   width: 576px;
-  height: 89px;
+  height: 88px;
   background-color: #ffffff;
   display: flex;
+  margin-bottom: -1px;
+  margin-top: 116px;
+  span.next {
+    font-size: 18px;
+    line-height: 35px;
+    color: #9a9b9b;
+    font-family: "Source Sans Pro";
+    text-align: left;
+    text-transform: uppercase;
+  }
+  .song-info {
+    padding-top: 0.75rem;
+    padding-right: 2rem;
+    overflow-x: hidden;
+    width: 100%;
+    line-height: 20px;
+    .song-name {
+      font-size: 24px;
+      line-height: 20px;
+      color: #1b1b1b;
+      font-family: "Source Sans Pro";
+      background:#ffffff;
+      padding-right: 1rem;
+    }
+    .song-name:after {
+      float: left;
+      width: 0;
+      color: #9a9b9b;
+      white-space: nowrap;
+      letter-spacing: 2px;
+      content:
+      ". . . . . . . . . . . . . . . . . . . . "
+      ". . . . . . . . . . . . . . . . . . . . "
+      ". . . . . . . . . . . . . . . . . . . . "
+      ". . . . . . . . . . . . . . . . . . . . "
+    }
+    .next-time {
+      float: right;
+      font-size: 24px;
+      line-height: 20px;
+      background:#ffffff;
+      padding-right: 2rem;
+      padding-left: 1rem;
+      color: #9a9b9b;
+      font-family: "Source Sans Pro";
+    }
 }
-span.next {
-  font-size: 18px;
-  line-height: 36px;
-  color: #9a9b9b;
-  font-family: "Source Sans Pro";
-  text-align: left;
-  text-transform: uppercase;
+  .next-song-info {
+    overflow: hidden;
+  }
 }
-
-.song-info {
-  padding: 0.75rem;
-  overflow-x: hidden;
-  width: 100%;
-}
-.song-name {
-  font-size: 24px;
-  line-height: 20px;
-  color: #1b1b1b;
-  font-family: "Source Sans Pro";
-  background:#ffffff;
-  padding-right: 1rem;
-}
-.song-name:after {
-  float: left;
-  width: 0;
-  font-size: 1.5rem;
-  color: #9a9b9b;
-  white-space: nowrap;
-  letter-spacing: 2px;
-  content:
-  ". . . . . . . . . . . . . . . . . . . . "
-  ". . . . . . . . . . . . . . . . . . . . "
-  ". . . . . . . . . . . . . . . . . . . . "
-  ". . . . . . . . . . . . . . . . . . . . "
-}
-.next-time {
-  float: right;
-  font-size: 24px;
-  line-height: 20px;
-  background:#ffffff;
-  padding-right: 2rem;
-  padding-left: 1rem;
-  color: #9a9b9b;
-  font-family: "Source Sans Pro";
-}
-
- .next-song-info {
-   overflow: hidden;
- }
  .moreslide-enter-active, .moreslide-leave-active {
    transition: 0.6s;
  }
@@ -355,8 +397,6 @@ span.next {
    transform: translateY(100%);
    opacity:0.25
  }
-
-
 
 </style>
 
