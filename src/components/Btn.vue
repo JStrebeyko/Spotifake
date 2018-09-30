@@ -11,6 +11,9 @@
       <img v-if="play && !active" src="./../assets/Play_inactive.png"/>
       <img v-if="down" src="./../assets/back_ico.svg"/>
       <span v-if="shufflePlay" class="shuffle-play-text">shuffle play</span>
+      <svg  v-if="moreMore" width="4" height="29" viewBox="0 0 4 29">
+  <path id="more_ico" fill="white" d="M1023,163.031a1.985,1.985,0,1,1-2,1.985A2,2,0,0,1,1023,163.031Zm0-12.531a2,2,0,1,1-2,2A2,2,0,0,1,1023,150.5Zm0-12.5a1.985,1.985,0,1,1-2,1.984A1.995,1.995,0,0,1,1023,138Z" transform="translate(-1021 -138)"/>
+</svg>
     </button>
 </template>
 
@@ -57,6 +60,9 @@ export default {
     },
     active: {
       type: Boolean
+    },
+    moreMore: {
+      type: Boolean
     }
   },
   mounted() {
@@ -65,21 +71,18 @@ export default {
   computed: {
     className() {
       let className;
-      this.back && (className = 'btn-back');
-      this.more && (className = 'btn-more');
-      this.shuffle && (className = 'btn-shuffle');
-      this.prev && (className = 'btn-prev');
-      this.play && (className = 'btn-play');
-      this.next && (className = 'btn-next');
-      this.repeat && (className = 'btn-repeat');
-      this.playlist && (className = 'btn-playlist');
-      this.down && (className = 'btn-down');
-      this.shufflePlay && (className = 'btn-shuffle-play');
+      this.back && (className = 'btn btn-back');
+      (this.more||this.moreMore) && (className = 'btn btn-more');
+      this.shuffle && (className = 'btn btn-shuffle');
+      this.prev && (className = 'btn btn-prev');
+      this.play && (className = 'btn btn-play');
+      this.next && (className = 'btn btn-next');
+      this.repeat && (className = 'btn btn-repeat');
+      this.playlist && (className = 'btn btn-playlist');
+      this.down && (className = 'btn btn-down');
+      this.shufflePlay && (className = 'btn btn-shuffle-play');
       return className;
     }
-    // src() {
-    //   return this.back ? './../assets/back_ico.svg': false
-    // }
   }
 }
 </script>
@@ -94,8 +97,8 @@ button, input[type="submit"], input[type="reset"] {
   cursor: pointer;
   outline: inherit;
  z-index: 2;
-
 }
+
 .btn-back, .btn-more {
  display: flex;
  justify-content: center;
@@ -105,9 +108,9 @@ button, input[type="submit"], input[type="reset"] {
     margin-left: 3.3rem;
     margin-top: 0.4rem;
   }
-
 }
-.btn-more img {
+.btn-more img,
+.btn-more svg {
     margin-right: 3.9rem;
     margin-top: 0.4rem;
 }
@@ -116,7 +119,6 @@ button, input[type="submit"], input[type="reset"] {
   max-width:13rem;
   display: flex;
   margin-left:-4rem;
-
 }
 
 .btn-playlist {
@@ -131,7 +133,6 @@ button, input[type="submit"], input[type="reset"] {
   transform: rotate(-90deg);
   height:4rem;
   margin-bottom: 0.5rem;
-
 }
 
 .btn-shuffle-play {
@@ -147,7 +148,6 @@ button, input[type="submit"], input[type="reset"] {
     font-family: "Source Sans Pro";
     font-weight: bold;
     text-transform: uppercase;
-
   }
 }
 </style>
