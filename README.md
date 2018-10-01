@@ -9,7 +9,8 @@ core:
 [v] play button with state
 [v] playlist menu
 [v] responsiveness
-
+```
+```
 additional:
 [v] btn
 [v] deal with the computed watcher console.error
