@@ -11,39 +11,38 @@
     </transition>
     <div class="head">
       <btn back/>
-        <div class="album-info">
+        <div class="album-info" v-if="!displayPlaylist">
           <span class="album">album</span>
           <span class="album-name">{{currentAlbum.title}}</span>
         </div>
-      <btn more @click.native="toggleMore"/>
+        <div class="playlist-head" v-if="displayPlaylist">
+          <span class="song">{{currentSong}}</span>
+          <span class="artist">{{currentAlbum.artist}}</span>
+          <btn play class="playlistPlayBtn" :active="isPlaying" @click.native="togglePlay"/>
+        </div>
+      <btn more @click.native="toggleMore" v-if="!displayPlaylist"/>
     </div>
 
     <div class="body">
       <div class="covers">
         <div class="album-cover">
-          <!-- <transition name="covers"> -->
             <img
               :src="prevAlbum.cover"
               :key="prevAlbum.title"
               @click="currentAlbumNum=changeCurrentAlbumNumber()"/>
-          <!-- </transition> -->
         </div>
         <div class="album-cover">
-          <!-- <transition name="covers"> -->
             <img
             :src="currentAlbum.cover"
             class="active album-cover"
             :key="currentAlbum.title"/>
-          <!-- </transition> -->
         </div>
 
         <div class="album-cover">
-        <!-- <transition name="covers"> -->
           <img
           :src="nextAlbum.cover"
           :key="nextAlbum.title"
           @click="currentAlbumNum=changeCurrentAlbumNumber('next')"/>
-        <!-- </transition> -->
         </div>
 
       </div>
@@ -54,11 +53,11 @@
       </div>
 
       <div class="controls">
-        <btn shuffle/>
+        <btn shuffle :isToggled="isShuffleOn" @click.native="isShuffleOn=!isShuffleOn"/>
         <btn prev @click.native="prev"/>
         <btn play :active="isPlaying" @click.native="togglePlay"/>
         <btn next @click.native="next"/>
-        <btn repeat/>
+        <btn repeat :isToggled="isRepeatOn" @click.native="isRepeatOn=!isRepeatOn"/>
       </div>
     </div>
 
@@ -91,15 +90,18 @@ import track from '@/assets/running_track.jpg'
 // import Slick from 'vue-slick'
 // TODO:
 // core:
-// [v]right 'more' menu
+// [v] right 'more' menu
 // [v] album covers slider
 // [v] play button with state
 // [v] playlist menu
+// [v] responsiveness
 
 // additional:
 // [v] btn
 // [v] deal with the computed watcher console.error
-// [] flow control
+// [v] flow control
+// toggleable buttons
+// dataset from outside
 export default {
   name: 'player',
   components: {
@@ -124,10 +126,8 @@ export default {
       currentAlbum: {},
       prevAlbum:{},
       nextAlbum: {},
-      slickOptions: {
-        arrows: false,
-        slidesToShow: 1
-      }
+      isShuffleOn: false,
+      isRepeatOn: false
     }
   },
   mounted() {
@@ -192,10 +192,13 @@ export default {
 <style scoped lang="scss">
 
 .all {
-  width: 576px;
+  max-width: 576px;
   height: 1024px;
   position: relative;
   box-shadow: 10px 10px 200px 10px #000;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
 }
 
 .bg {
@@ -207,13 +210,13 @@ export default {
   right: 0;
   left: 0;
   height: 50%;
-  width: 100%;
+  max-width: 100%;
   display: block;
   z-index:1;
 }
 
 div.gradient {
-  background: rgba(27, 27, 27, 0.95);
+  background: linear-gradient(rgba(27, 27, 27, 0.85), rgba(27, 27, 27, 1));
   z-index:3;
   display: block;
   position: absolute;
@@ -223,7 +226,7 @@ div.gradient {
 
 .wrapper {
   background-color: #1b1b1b;
-  width: 100%;
+  max-width: 100%;
   height: 100%;
   display: flex;
   position:relative;
@@ -235,16 +238,35 @@ div.gradient {
 .head {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  max-width: 100%;
   height: 8.1rem;
   justify-content: space-between;
   z-index: 1;
+  .playlist-head {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem 3.5rem;
+    .song {
+      color: #37b34a;
+      font-family: "Source Sans Pro";
+      font-size: 24px;
+      line-height: 25px;
+    }
+    .artist {
+      color: #9a9b9b;
+      font-family: "Source Sans Pro";
+      font-size: 18px;
+      line-height: 25px;
+    }
+  }
 }
 
 .album-info{
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  flex-direction: column;
 }
 .album {
   font-size: 18px;
@@ -275,8 +297,10 @@ div.gradient {
         margin: 2rem;
       }
       &.active {
-        width:20rem;
-        height: 20rem;
+        width: 50vw;
+        max-width: 20rem;
+        height: 50vw;
+        max-height: 20rem;
       }
     }
   }
@@ -323,17 +347,18 @@ div.gradient {
   }
 }
 .running-track {
-  bottom: 87px;
+  bottom: 86px;
   position: absolute;
 
 }
 .feet {
-  width: 576px;
+  max-width: 576px;
   height: 88px;
   background-color: #ffffff;
   display: flex;
   margin-bottom: -1px;
   margin-top: 116px;
+  overflow: hidden;
   span.next {
     font-size: 18px;
     line-height: 35px;
@@ -345,7 +370,7 @@ div.gradient {
   .song-info {
     padding-top: 0.75rem;
     padding-right: 2rem;
-    overflow-x: hidden;
+    overflow: hidden;
     width: 100%;
     line-height: 20px;
     .song-name {
@@ -358,7 +383,7 @@ div.gradient {
     }
     .song-name:after {
       float: left;
-      width: 0;
+      max-width: 0;
       color: #9a9b9b;
       white-space: nowrap;
       letter-spacing: 2px;
@@ -378,7 +403,7 @@ div.gradient {
       color: #9a9b9b;
       font-family: "Source Sans Pro";
     }
-}
+  }
   .next-song-info {
     overflow: hidden;
   }
