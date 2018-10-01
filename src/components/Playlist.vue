@@ -93,7 +93,7 @@ export default {
       color: #9a9b9b;
       background:#ffffff;
       padding-left: 4rem;
-      padding-right: 2.5rem;
+      padding-right: 1.6rem;
     }
     .track-title {
       font-size: 24px;
@@ -136,4 +136,12 @@ export default {
   align-items: center;
 }
 
+.playlistPlayBtn img {
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 33px;
+  z-index: 20;
+  max-width: 130px;
+}
 </style>
