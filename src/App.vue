@@ -160,9 +160,6 @@ body {
   background-color: #37b349;
   height: 100vh;
   width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
 }
 
