@@ -64,6 +64,8 @@ export default {
   align-items: center;
   text-align: center;
   z-index: 3;
+  max-width: 100vw;
+  max-height: 100vh;
   .more-head {
     display: flex;
     flex-direction: row;
@@ -80,6 +82,8 @@ export default {
   .more-body {
     margin-bottom: 4rem;
     .more-cover {
+      max-width: 35vw;
+      max-height: 35vw;
       height: 25%;
       margin-bottom: 1.5rem;
     }
