@@ -1,6 +1,9 @@
 # Spotifake
 my take on creating a Spotify-look-alike.
 
+![alt text](https://github.com/JStrebeyko/Spotifake/blob/master/public/Player_more.jpg)
+
+Apparently, here is a red-hot version of how shoult it look like (still some features are missing, namely the playing album middle icon or spinning records): https://dribbble.com/shots/4222790-Daftplayer-prototype
 ## Features
 ```
 core:
@@ -12,10 +15,7 @@ core:
 ```
 ```
 additional:
-[v] btn
-[v] deal with the computed watcher console.error
-[v] flow control
-[v] toggleable buttons
+[v] btn component, some toggleable
 [v] dataset from outside
 ```
 

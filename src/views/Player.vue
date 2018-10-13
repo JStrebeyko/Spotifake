@@ -87,21 +87,7 @@ import Playlist from './../components/Playlist'
 import Btn from './../components/Btn'
 import bg from '@/assets/bg_photo.png'
 import track from '@/assets/running_track.jpg'
-// import Slick from 'vue-slick'
-// TODO:
-// core:
-// [v] right 'more' menu
-// [v] album covers slider
-// [v] play button with state
-// [v] playlist menu
-// [v] responsiveness
 
-// additional:
-// [v] btn
-// [v] deal with the computed watcher console.error
-// [v] flow control
-// toggleable buttons
-// dataset from outside
 export default {
   name: 'player',
   components: {
