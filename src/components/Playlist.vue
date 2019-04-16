@@ -2,7 +2,7 @@
 <div class="playlist-wrapper">
   <div class="playlist-body">
     <div class="tracklist">
-      <div v-for="(track, index) in trimmedTracklist" class="track">
+      <div v-for="(track, index) in trimmedTracklist" class="track" :key="index">
         <span class="track-number">{{index+1}}. </span>
         <span class="track-title">{{track.title}}</span>
         <span class="track-duration">{{track.duration}}</span>

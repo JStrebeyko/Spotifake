@@ -64,9 +64,6 @@ export default {
     shufflePlay: {
       type: Boolean
     },
-    active: {
-      type: Boolean
-    },
     moreMore: {
       type: Boolean
     },
